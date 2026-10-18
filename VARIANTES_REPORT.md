@@ -1,6 +1,6 @@
-# Reporte: 10 agentes vs top5 (50,000 elementos)
+# Reporte: 10 variantes v4 vs top5 (50,000 elementos)
 
-Todos los agentes pasaron `test_agents` (corrección 1932-style verificada). Dataset: `np.random.randint(0,10_000_000,size=50000).astype(np.int64)`, seed=2026. Tiempo reportado = wall - capture_seconds.
+Las 10 variantes pasaron `test_variants` (corrección verificada estilo 1932). Dataset: `np.random.randint(0,10_000_000,size=50000).astype(np.int64)`, seed=2026. Tiempo reportado = wall - capture_seconds.
 
 ## Resultados ordenados
 
@@ -27,12 +27,12 @@ Todos los agentes pasaron `test_agents` (corrección 1932-style verificada). Dat
 - Variantes ligeras (Network/QuickRadix/MergeRadix/Adaptive/Block/Scalar/Fusion) quedan por delante de Patience/Quick.
 - Varias superan Bucket Sort (Network/QuickRadix/MergeRadix/Adaptive/Block/Scalar).
 - Ninguna logra superar Radix LSD ni a NovaSort v3.
-- FlashPlus/Hibridas con radix pesado más lentas en este setup.
+- FlashPlus/Híbridas con radix pesado más lentas en este setup.
 
 ## Archivos
 
-- `nova_agents.py` - 10 implementaciones
-- `test_agents.py` - verificación
-- `results/comparison_agents.json`
-- `results/comparison_agents_log.png`
-- `results/comparison_agents_top.png`
+- `nova_variants.py` - 10 implementaciones
+- `test_variants.py` - verificación
+- `results/comparison_variantes.json`
+- `results/comparison_variantes_log.png`
+- `results/comparison_variantes_top.png`

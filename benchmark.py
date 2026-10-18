@@ -59,16 +59,16 @@ def profile_data(profile: str, n: int = 50_000, high: int = 10_000_000, seed: in
     raise ValueError(profile)
 
 
-def algorithm_names(include_nova_history: bool = False, include_agents: bool = False) -> list[str]:
+def algorithm_names(include_nova_history: bool = False, include_variants: bool = False) -> list[str]:
     from .algorithms import ALGORITHMS
 
     names = [a.name for a in ALGORITHMS]
     if include_nova_history:
         names += ["NovaSort v1", "NovaSort v2"]
     names.append("NovaSort v3 (nuevo)")
-    if include_agents:
-        from . import nova_agents
-        names.extend([a.name for a in nova_agents.AGENT_ALGOS])
+    if include_variants:
+        from . import nova_variants
+        names.extend([a.name for a in nova_variants.VARIANT_ALGOS])
     return names
 
 
@@ -87,8 +87,8 @@ def _lookup(name: str):
     if name in mapping:
         return mapping[name]
     try:
-        from . import nova_agents
-        for a in nova_agents.AGENT_ALGOS:
+        from . import nova_variants
+        for a in nova_variants.VARIANT_ALGOS:
             if a.name == name:
                 return a.func, a.estimate, a.family
     except Exception:
@@ -178,10 +178,10 @@ def run_one(name: str, n: int = 50_000, high: int = 10_000_000, seed: int = 2026
     )
 
 
-def run_all(n: int = 50_000, include_nova_history: bool = False, include_agents: bool = False,
+def run_all(n: int = 50_000, include_nova_history: bool = False, include_variants: bool = False,
             timeout: float = 60.0, on_result=None, high: int = 10_000_000, seed: int = 2026) -> list[RunResult]:
     results = []
-    for name in algorithm_names(include_nova_history, include_agents=include_agents):
+    for name in algorithm_names(include_nova_history, include_variants=include_variants):
         res = run_one(name, n=n, high=high, seed=seed, timeout=timeout)
         results.append(res)
         if on_result is not None:

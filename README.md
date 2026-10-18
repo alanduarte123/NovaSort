@@ -5,7 +5,7 @@ Comparación y desarrollo iterativo de algoritmos de ordenamiento en Python/nump
 - **20 algoritmos clásicos** optimizados (bubble, quick, merge, heap, radix, timsort...)
 - **NovaSort v1 → v3**: algoritmo híbrido nuevo creado por iteración (benchmark-guided)
 - **NovaSuper v1**: versión final especializada en batir a *Radix LSD*
-- **10 variantes "agente"** (NovaFusion v4, NovaRadix v4, ...) generadas y evaluadas
+- **10 variantes v4 experimentales** (NovaFusion v4, NovaRadix v4, ...) evaluadas con benchmark
 - Benchmark secuencial (un algoritmo a la vez, subprocesos con timeout — anti-lag/memoria)
 - Suite de corrección cruzada: **1932/1932 verificacones OK**
 - Visualización: benchmark con gráficas + clasificador visual de imágenes (GUI/CLI)
@@ -31,16 +31,16 @@ sorting_showdown/
 ├── algorithms.py        # 20 algoritmos clásicos optimizados
 ├── nova.py              # NovaSort v1, v2, v3 (trayectoria de mejora)
 ├── nova_vs_radix.py     # NovaSuper v1 (mejor algoritmo, vs Radix LSD)
-├── nova_agents.py       # 10 variantes v4 generadas por agentes
+├── nova_variants.py      # 10 variantes v4 experimentales
 ├── recorder.py          # captura de frames downsampled (visualización)
 ├── benchmark.py         # runner en serie con subprocesos + timeout
 ├── visualize.py         # animación/gráficas comparativas
 ├── test_correctness.py  # suite: 1932 verificaciones
-├── test_agents.py       # verificación de variantes de agentes
+├── test_variants.py      # verificación de variantes v4
 ├── experiments/         # variantes de investigación (novar*, ultra, tuned...)
 ├── examples/            # clasificador visual de imágenes (CLI + GUI)
 ├── results/             # benchmarks JSON, gráficas PNG
-└── AGENTS_REPORT.md / FINAL_VS_RADIX.md / RESULTS_NOVA_RADIX.md
+└── VARIANTES_REPORT.md / FINAL_VS_RADIX.md / RESULTS_NOVA_RADIX.md
 ```
 
 ## Instalación
@@ -55,7 +55,7 @@ pip install -r requirements.txt
 
 ```bash
 python3 -m sorting_showdown.test_correctness   # 1932/1932
-python3 -m sorting_showdown.test_agents        # variantes agentes
+python3 -m sorting_showdown.test_variants        # variantes v4
 ```
 
 ### Benchmark (50k, en serie, un algoritmo a la vez)

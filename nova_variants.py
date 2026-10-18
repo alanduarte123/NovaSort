@@ -1,4 +1,4 @@
-"""Agentes: 10 versiones mejoradas de NovaSort."""
+"""10 variantes v4 experimentales de NovaSort."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -167,22 +167,22 @@ def nova_scalar_v4(a: np.ndarray) -> None:
 
 
 @dataclass(frozen=True)
-class AgentAlgo:
+class VariantAlgo:
     name: str
     func: Callable[[np.ndarray], None]
     estimate: Callable[[int], int]
     family: str
 
 
-AGENT_ALGOS = [
-    AgentAlgo("NovaFusion v4", nova_fusion_v4, lambda n: 6, "agente - fusion"),
-    AgentAlgo("NovaRadix v4", nova_radix_v4, lambda n: 4, "agente - radix"),
-    AgentAlgo("NovaHybrid v4", nova_hybrid_v4, lambda n: 6, "agente - hibrido"),
-    AgentAlgo("NovaBlock v4", nova_block_v4, lambda n: 6, "agente - bloque"),
-    AgentAlgo("NovaAdaptive v4", nova_adaptive_v4, lambda n: 6, "agente - adaptativo"),
-    AgentAlgo("NovaQuickRadix v4", nova_quickradix_v4, lambda n: 6, "agente - quickradix"),
-    AgentAlgo("NovaNetwork v4", nova_network_v4, lambda n: 6, "agente - patron"),
-    AgentAlgo("NovaMergeRadix v4", nova_mergeradix_v4, lambda n: 6, "agente - mergeradix"),
-    AgentAlgo("NovaFlashPlus v4", nova_flashplus_v4, lambda n: 6, "agente - flashplus"),
-    AgentAlgo("NovaScalar v4", nova_scalar_v4, lambda n: 6, "agente - scalar"),
+VARIANT_ALGOS = [
+    VariantAlgo("NovaFusion v4", nova_fusion_v4, lambda n: 6, "variante - fusion"),
+    VariantAlgo("NovaRadix v4", nova_radix_v4, lambda n: 4, "variante - radix"),
+    VariantAlgo("NovaHybrid v4", nova_hybrid_v4, lambda n: 6, "variante - hibrido"),
+    VariantAlgo("NovaBlock v4", nova_block_v4, lambda n: 6, "variante - bloque"),
+    VariantAlgo("NovaAdaptive v4", nova_adaptive_v4, lambda n: 6, "variante - adaptativo"),
+    VariantAlgo("NovaQuickRadix v4", nova_quickradix_v4, lambda n: 6, "variante - quickradix"),
+    VariantAlgo("NovaNetwork v4", nova_network_v4, lambda n: 6, "variante - patron"),
+    VariantAlgo("NovaMergeRadix v4", nova_mergeradix_v4, lambda n: 6, "variante - mergeradix"),
+    VariantAlgo("NovaFlashPlus v4", nova_flashplus_v4, lambda n: 6, "variante - flashplus"),
+    VariantAlgo("NovaScalar v4", nova_scalar_v4, lambda n: 6, "variante - scalar"),
 ]
