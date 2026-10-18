@@ -42,6 +42,7 @@ const PSEUDOCODE={
 let array=[],algorithm='quick',speed=20,isPlaying=false,intervalId=null,comparisons=0,swaps=0,steps=[],stepIndex=0;
 function clone(a){return a.slice();}
 function generateArray(size){
+  size = Math.min(size,50);
   array=[];
   for(let i=0;i<size;i++) array.push(Math.floor(Math.random()*100)+1);
   comparisons=0; swaps=0; stepIndex=0; steps=[];
@@ -122,9 +123,9 @@ document.getElementById('play').onclick=togglePlay;
 document.getElementById('pause').onclick=pause;
 document.getElementById('step').onclick=step;
 document.getElementById('reset').onclick=reset;
-document.getElementById('arraySize').oninput=e=>{document.getElementById('sizeValue').textContent=e.target.value; if(!isPlaying) generateArray(parseInt(e.target.value));};
+document.getElementById('arraySize').oninput=e=>{ let v=Math.min(parseInt(e.target.value),50); document.getElementById('sizeValue').textContent=v; if(!isPlaying) generateArray(v); };
 document.getElementById('speed').oninput=e=>{document.getElementById('speedValue').textContent=e.target.value; speed=parseInt(e.target.value); if(isPlaying){clearInterval(intervalId); intervalId=setInterval(()=>{if(!nextStep()){pause();setStatus('Finalizado');}},1000/speed);} };
 document.getElementById('algorithm').onchange=()=>{algorithm=document.getElementById('algorithm').value; stepIndex=0; steps=[]; buildSteps(); renderBars(array); updateCode();};
 document.querySelectorAll('.tab-button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active');updateCode();});
 
-generateArray(30); updateCode();
+generateArray(20); updateCode();
