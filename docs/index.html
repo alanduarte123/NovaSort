@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovaSort - Visualizador</title>
+<style>
+body{font-family:system-ui;margin:0;background:#0f172a;color:#e2e8f0}
+.container{max-width:1000px;margin:0 auto;padding:20px}
+.bars{display:flex;height:280px;align-items:end;gap:1px;background:#0b1225;padding:10px;border-radius:8px}
+.bar{flex:1;background:#38bdf8;transition:height 100ms}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0;align-items:center}
+.btn{padding:6px 12px;border-radius:6px;background:#1e293b;border:1px solid #334155;color:#e2e8f0;cursor:pointer}
+input{padding:6px;border-radius:6px;background:#0f172a;border:1px solid #334155;color:#e2e8f0}
+.tabs{display:flex;gap:6px;margin-top:20px}
+.tab{padding:6px 10px;border:1px solid #334155;border-bottom:none;border-radius:6px 6px 0 0;background:#0f172a;cursor:pointer}
+.code{background:#0b1225;padding:15px;border:1px solid #334155;border-radius:0 8px 8px 8px;white-space:pre-wrap;overflow:auto;max-height:400px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>NovaSort Visualizer</h1>
+<select id="algo"><option value="novasuper">NovaSuper v1</option><option value="novasort">NovaSort v3</option><option value="radix">Radix LSD</option><option value="quick">Quick Sort</option></select>
+<div class="controls"><button class="btn" id="play">Play</button><button class="btn" id="step">Paso</button><button class="btn" id="reset">Reset</button>
+<label>Velocidad <input type="range" id="speed" min="1" max="50" value="10"></label><label>Tamaño <input type="number" id="n" value="50" min="10" max="120"></label></div>
+<div class="bars" id="bars"></div>
+<div class="tabs"><div class="tab" data-lang="python">Python</div><div class="tab" data-lang="js">JS</div><div class="tab" data-lang="c">C</div><div class="tab" data-lang="java">Java</div><div class="tab" data-lang="php">PHP</div></div>
+<pre class="code" id="code"></pre>
+</div>
+<script>
+const barsEl=document.getElementById('bars');
+let arr=[]; let timer=null;
+function gen(n){arr=[];for(let i=0;i<n;i++) arr.push(Math.floor(Math.random()*100)+1); draw();}
+function draw(){barsEl.innerHTML='';const max=Math.max(...arr);arr.forEach(v=>{const b=document.createElement('div');b.className='bar';b.style.height=(v/max*100)+'%';barsEl.appendChild(b);});}
+function reset(){if(timer){clearInterval(timer);timer=null;}gen(+document.getElementById('n').value);}
+document.getElementById('reset').onclick=reset;
+document.getElementById('play').onclick=()=>{if(timer) return;const sp=+document.getElementById('speed').value;timer=setInterval(()=>{if(!stepSort()){clearInterval(timer);timer=null;}},1000/sp)};
+document.getElementById('step').onclick=()=>{if(!timer) stepSort();};
+function stepSort(){draw(); return false;}
+reset();
+</script>
+</body>
+</html>
