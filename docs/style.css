@@ -238,6 +238,11 @@ body {
     box-shadow: 0 0 8px rgba(167, 139, 250, 0.5);
 }
 
+.bar.write {
+    background: linear-gradient(to top, #a78bfa 0%, #c4b5fd 100%);
+    box-shadow: 0 0 6px rgba(167, 139, 250, 0.4);
+}
+
 .bar.sorted {
     background: linear-gradient(to top, var(--success) 0%, #34d399 100%);
     box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
