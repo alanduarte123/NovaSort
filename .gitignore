@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# resultados pesados regenerables
+results/runs/
+results/frames/
+*.npz
+
+# artefactos de imagen de ejemplo
+sorted_*.png
+test_pattern.png

@@ -1,0 +1,149 @@
+[
+  {
+    "name": "Bubble Sort",
+    "seconds": 21.689270685998963,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - familia bubble"
+  },
+  {
+    "name": "Cocktail Shaker",
+    "seconds": 23.261565412997697,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - familia bubble"
+  },
+  {
+    "name": "Selection Sort",
+    "seconds": 1.0203177239982324,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - seleccion"
+  },
+  {
+    "name": "Exchange Sort",
+    "seconds": 1.8366362419983489,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - intercambio"
+  },
+  {
+    "name": "Insertion Sort",
+    "seconds": 6.132312953997825,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - insercion"
+  },
+  {
+    "name": "Binary Insertion",
+    "seconds": 1.0649948349991973,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - insercion"
+  },
+  {
+    "name": "Shell Sort",
+    "seconds": 0.5778371930000503,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^1.3) - incrementos"
+  },
+  {
+    "name": "Comb Sort",
+    "seconds": 0.9364701260001311,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n^2) - gap"
+  },
+  {
+    "name": "Merge Sort",
+    "seconds": 0.2828898859997935,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - fusion"
+  },
+  {
+    "name": "Quick Sort",
+    "seconds": 0.16421010199974262,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - particion"
+  },
+  {
+    "name": "Heap Sort",
+    "seconds": 0.3865056570029992,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - monticulo"
+  },
+  {
+    "name": "Introsort",
+    "seconds": 0.17496683500030485,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - hibrido"
+  },
+  {
+    "name": "Timsort",
+    "seconds": 0.2533621709990257,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - adaptativo"
+  },
+  {
+    "name": "Patience Sort",
+    "seconds": 0.14466059800361109,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log n) - pilas"
+  },
+  {
+    "name": "Counting Sort",
+    "seconds": 0.19114862399965205,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n+r) - histograma"
+  },
+  {
+    "name": "Radix LSD",
+    "seconds": 0.01984682999773213,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(nk) - digitos"
+  },
+  {
+    "name": "Radix MSD",
+    "seconds": 0.20890185308962828,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(nk) - digitos"
+  },
+  {
+    "name": "Bucket Sort",
+    "seconds": 0.11552379900695087,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n) - cubetas"
+  },
+  {
+    "name": "Bitonic Sort",
+    "seconds": 0.48589396300303633,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n log^2 n) - red"
+  },
+  {
+    "name": "Flash Sort",
+    "seconds": 1.5641780949945314,
+    "ok": true,
+    "timed_out": false,
+    "family": "O(n) - clasificacion"
+  },
+  {
+    "name": "NovaSort v3 (nuevo)",
+    "seconds": 0.03705535599965515,
+    "ok": true,
+    "timed_out": false,
+    "family": "nuevo - hibrido"
+  }
+]

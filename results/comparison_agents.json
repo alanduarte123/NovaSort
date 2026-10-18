@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Quick Sort",
+    "seconds": 0.18374209700232313,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "Patience Sort",
+    "seconds": 0.14709852200030582,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "Radix LSD",
+    "seconds": 0.021824616005687858,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "Bucket Sort",
+    "seconds": 0.055462863005232066,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaSort v3 (nuevo)",
+    "seconds": 0.01551261300301121,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaFusion v4",
+    "seconds": 0.08756573799837497,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaRadix v4",
+    "seconds": 4.444117805000133,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaHybrid v4",
+    "seconds": 4.270619504000933,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaBlock v4",
+    "seconds": 0.07189385200035758,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaAdaptive v4",
+    "seconds": 0.0695375299983425,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaQuickRadix v4",
+    "seconds": 0.06679035200249928,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaNetwork v4",
+    "seconds": 0.06667762099823449,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaMergeRadix v4",
+    "seconds": 0.06784612899900822,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaFlashPlus v4",
+    "seconds": 0.8309108589783136,
+    "ok": true,
+    "timed_out": false
+  },
+  {
+    "name": "NovaScalar v4",
+    "seconds": 0.07519682299789565,
+    "ok": true,
+    "timed_out": false
+  }
+]

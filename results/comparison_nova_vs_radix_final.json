@@ -1,0 +1,13 @@
+[
+  {
+    "name": "NovaSuper v1",
+    "seconds": 0.015285700999811525,
+    "ok": true,
+    "vs": "Radix LSD"
+  },
+  {
+    "name": "Radix LSD",
+    "seconds": 0.0246887199991761,
+    "ok": true
+  }
+]
