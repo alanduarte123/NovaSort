@@ -1,43 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NovaSort - Visualizador</title>
-<style>
-body{font-family:system-ui;margin:0;background:#0f172a;color:#e2e8f0}
-.container{max-width:1000px;margin:0 auto;padding:20px}
-.bars{display:flex;height:280px;align-items:end;gap:1px;background:#0b1225;padding:10px;border-radius:8px}
-.bar{flex:1;background:#38bdf8;transition:height 100ms}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0;align-items:center}
-.btn{padding:6px 12px;border-radius:6px;background:#1e293b;border:1px solid #334155;color:#e2e8f0;cursor:pointer}
-input{padding:6px;border-radius:6px;background:#0f172a;border:1px solid #334155;color:#e2e8f0}
-.tabs{display:flex;gap:6px;margin-top:20px}
-.tab{padding:6px 10px;border:1px solid #334155;border-bottom:none;border-radius:6px 6px 0 0;background:#0f172a;cursor:pointer}
-.code{background:#0b1225;padding:15px;border:1px solid #334155;border-radius:0 8px 8px 8px;white-space:pre-wrap;overflow:auto;max-height:400px;font-family:monospace;font-size:12px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaSort Visualizer - Algoritmos de Ordenamiento</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<div class="container">
-<h1>NovaSort Visualizer</h1>
-<select id="algo"><option value="novasuper">NovaSuper v1</option><option value="novasort">NovaSort v3</option><option value="radix">Radix LSD</option><option value="quick">Quick Sort</option></select>
-<div class="controls"><button class="btn" id="play">Play</button><button class="btn" id="step">Paso</button><button class="btn" id="reset">Reset</button>
-<label>Velocidad <input type="range" id="speed" min="1" max="50" value="10"></label><label>Tamaño <input type="number" id="n" value="50" min="10" max="120"></label></div>
-<div class="bars" id="bars"></div>
-<div class="tabs"><div class="tab" data-lang="python">Python</div><div class="tab" data-lang="js">JS</div><div class="tab" data-lang="c">C</div><div class="tab" data-lang="java">Java</div><div class="tab" data-lang="php">PHP</div></div>
-<pre class="code" id="code"></pre>
-</div>
-<script>
-const barsEl=document.getElementById('bars');
-let arr=[]; let timer=null;
-function gen(n){arr=[];for(let i=0;i<n;i++) arr.push(Math.floor(Math.random()*100)+1); draw();}
-function draw(){barsEl.innerHTML='';const max=Math.max(...arr);arr.forEach(v=>{const b=document.createElement('div');b.className='bar';b.style.height=(v/max*100)+'%';barsEl.appendChild(b);});}
-function reset(){if(timer){clearInterval(timer);timer=null;}gen(+document.getElementById('n').value);}
-document.getElementById('reset').onclick=reset;
-document.getElementById('play').onclick=()=>{if(timer) return;const sp=+document.getElementById('speed').value;timer=setInterval(()=>{if(!stepSort()){clearInterval(timer);timer=null;}},1000/sp)};
-document.getElementById('step').onclick=()=>{if(!timer) stepSort();};
-function stepSort(){draw(); return false;}
-reset();
-</script>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">NovaSort Visualizer</h1>
+            <p class="subtitle">Visualizador interactivo de algoritmos de ordenamiento</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="algorithm">Algoritmo</label>
+                <select id="algorithm">
+                    <option value="novasuper">NovaSuper v1</option>
+                    <option value="novasort">NovaSort v3</option>
+                    <option value="radix">Radix LSD</option>
+                    <option value="quick">Quick Sort</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="arraySize">Tamaño</label>
+                <input type="range" id="arraySize" min="10" max="100" value="50" step="5">
+                <span id="sizeValue">50</span>
+            </div>
+
+            <div class="control-group">
+                <label for="speed">Velocidad</label>
+                <input type="range" id="speed" min="1" max="50" value="15" step="1">
+                <span id="speedValue">15</span>
+            </div>
+
+            <div class="buttons">
+                <button id="generate" class="btn btn-secondary">Generar Array</button>
+                <button id="play" class="btn btn-primary">▶️ Reproducir</button>
+                <button id="pause" class="btn btn-secondary" disabled>⏸️ Pausar</button>
+                <button id="step" class="btn btn-secondary">⏭️ Paso</button>
+                <button id="reset" class="btn btn-secondary">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-label">Comparaciones:</span>
+                <span id="comparisons" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Intercambios:</span>
+                <span id="swaps" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Estado:</span>
+                <span id="status" class="stat-value">Listo</span>
+            </div>
+        </div>
+
+        <div class="visualization-container">
+            <div id="bars" class="bars"></div>
+        </div>
+
+        <div class="pseudocode">
+            <h3>Pseudocódigo</h3>
+            <pre id="pseudocode">Selecciona un algoritmo para ver el pseudocódigo</pre>
+        </div>
+
+        <div class="code-section">
+            <h3>Código fuente</h3>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="python">Python</button>
+                <button class="tab-button" data-tab="javascript">JavaScript</button>
+                <button class="tab-button" data-tab="c">C</button>
+                <button class="tab-button" data-tab="java">Java</button>
+                <button class="tab-button" data-tab="php">PHP</button>
+            </div>
+            <div id="tab-python" class="tab-content active">
+                <pre class="code-block"><code id="code-python"># Código Python</code></pre>
+            </div>
+            <div id="tab-javascript" class="tab-content">
+                <pre class="code-block"><code id="code-javascript">// Código JavaScript</code></pre>
+            </div>
+            <div id="tab-c" class="tab-content">
+                <pre class="code-block"><code id="code-c">// Código C</code></pre>
+            </div>
+            <div id="tab-java" class="tab-content">
+                <pre class="code-block"><code id="code-java">// Código Java</code></pre>
+            </div>
+            <div id="tab-php" class="tab-content">
+                <pre class="code-block"><code id="code-php">// Código PHP</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="visualizer.js"></script>
 </body>
+
 </html>
