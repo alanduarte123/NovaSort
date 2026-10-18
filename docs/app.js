@@ -206,6 +206,8 @@ $('algorithm').onchange = function(e){
   pause();
   algorithm = e.target.value;
   stepIndex = 0;
+  comparisons = 0;
+  swaps = 0;
   buildSteps();
   renderBars(array);
   updateStats();
