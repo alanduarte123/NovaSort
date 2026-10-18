@@ -1,6 +1,6 @@
 import numpy as np
 
-from sorting_showdown.nova_variants import VARIANT_ALGOS
+from nova_sort.nova_variants import VARIANT_ALGOS
 
 
 def test_variants():

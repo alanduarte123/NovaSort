@@ -4,17 +4,17 @@ import sys
 
 import numpy as np
 
-from sorting_showdown.algorithms import ALGORITHMS
-from sorting_showdown import recorder
+from nova_sort.algorithms import ALGORITHMS
+from nova_sort import recorder
 
 try:
-    from sorting_showdown.nova import NOVA_V3 as nova
+    from nova_sort.nova import NOVA_V3 as nova
     NOVAS = [("NovaSort v3", nova)]
 except Exception:
     NOVAS = []
 
 try:
-    from sorting_showdown.nova import NOVA_V1, NOVA_V2, NOVA_V3
+    from nova_sort.nova import NOVA_V1, NOVA_V2, NOVA_V3
     NOVAS = [("NovaSort v1", NOVA_V1), ("NovaSort v2", NOVA_V2), ("NovaSort v3", NOVA_V3)]
 except Exception:
     pass

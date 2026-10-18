@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 import numpy as np
 import time
 
-from sorting_showdown import nova_vs_radix, nova, algorithms
+from nova_sort import nova_vs_radix, nova, algorithms
 
 ALGORITHMS = {
     'NovaSuper v1': nova_vs_radix.nova_super_v1,

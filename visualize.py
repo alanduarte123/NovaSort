@@ -27,7 +27,7 @@ def animate_sequence(n: int = 50_000, high: int = 10_000_000, seed: int = 2026,
                      include_nova_history: bool = False, out_path: str | None = None) -> None:
     names = algorithm_names(include_nova_history)
     Path(RUNS_DIR).mkdir(parents=True, exist_ok=True)
-    Path("sorting_showdown/results").mkdir(parents=True, exist_ok=True)
+    Path("nova_sort/results").mkdir(parents=True, exist_ok=True)
 
     # Ejecutar secuencial guardando frames
     results = run_all(n=n, high=high, seed=seed, include_nova_history=include_nova_history,
@@ -38,7 +38,7 @@ def animate_sequence(n: int = 50_000, high: int = 10_000_000, seed: int = 2026,
     ax.set_ylim(0, 10_000_000)
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_title("Sorting Showdown: 50,000 elementos (secuencial)")
+    ax.set_title("NovaSort: 50,000 elementos (secuencial)")
 
     y = np.arange(900)
     barmin = ax.bar(y, np.zeros(900), width=1.0, color="#d73027", alpha=0.7)
@@ -112,7 +112,7 @@ def _animate_with_frames(results, fig, ax, barmin, barmax, text, total_frames, o
     anim = animation.FuncAnimation(fig, update, frames=max(1, total_frames), interval=30,
                                   blit=False, repeat=False)
     if out_path is None:
-        out_path = "sorting_showdown/results/sorting_showdown.mp4"
+        out_path = "nova_sort/results/nova_sort.mp4"
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     try:
         anim.save(out_path, writer=animation.FFMpegWriter(fps=30))

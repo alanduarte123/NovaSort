@@ -1,4 +1,4 @@
-# Sorting Showdown
+# NovaSort
 
 Comparación y desarrollo iterativo de algoritmos de ordenamiento en Python/numpy:
 
@@ -27,7 +27,7 @@ Comparación y desarrollo iterativo de algoritmos de ordenamiento en Python/nump
 ## Estructura
 
 ```
-sorting_showdown/
+nova_sort/
 ├── algorithms.py        # 20 algoritmos clásicos optimizados
 ├── nova.py              # NovaSort v1, v2, v3 (trayectoria de mejora)
 ├── nova_vs_radix.py     # NovaSuper v1 (mejor algoritmo, vs Radix LSD)
@@ -54,34 +54,34 @@ pip install -r requirements.txt
 ### Verificación
 
 ```bash
-python3 -m sorting_showdown.test_correctness   # 1932/1932
-python3 -m sorting_showdown.test_variants        # variantes v4
+python3 -m nova_sort.test_correctness   # 1932/1932
+python3 -m nova_sort.test_variants        # variantes v4
 ```
 
 ### Benchmark (50k, en serie, un algoritmo a la vez)
 
 ```python
-from sorting_showdown.benchmark import run_all
+from nova_sort.benchmark import run_all
 results = run_all(n=50_000, timeout=120.0)
 ```
 
 ### Comparar solo NovaSuper vs Radix LSD
 
 ```python
-from sorting_showdown import nova_vs_radix, algorithms
+from nova_sort import nova_vs_radix, algorithms
 ```
 
 ### Clasificador visual de imágenes (CLI)
 
 ```bash
-python3 sorting_showdown/examples/img_sort_cli.py imagen.png novasuper
+python3 nova_sort/examples/img_sort_cli.py imagen.png novasuper
 # opciones: novasuper | novasort | radix | quick
 ```
 
 ### Clasificador visual de imágenes (GUI, requiere display)
 
 ```bash
-python3 sorting_showdown/examples/img_sort_gui.py
+python3 nova_sort/examples/img_sort_gui.py
 ```
 
 ## Notas de diseño

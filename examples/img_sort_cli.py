@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from sorting_showdown import nova_vs_radix, nova, algorithms
+from nova_sort import nova_vs_radix, nova, algorithms
 
 ALGO = {
     'novasuper': ('NovaSuper v1', nova_vs_radix.nova_super_v1),
