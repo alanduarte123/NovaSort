@@ -60,7 +60,7 @@ const PSEUDOCODE = {
 
 let array = [];
 let algorithm = 'quick';
-let speed = 30;
+let speed = 45;
 let isPlaying = false;
 let intervalId = null;
 let comparisons = 0;
@@ -81,8 +81,18 @@ function generateArray(size){
   setStatus('Listo');
 }
 
+function capSteps(list, max){
+  if(list.length <= max) return list;
+  const out = [];
+  const stride = (list.length-1) / (max-1);
+  for(let i=0;i<max-1;i++) out.push(list[Math.floor(i*stride)]);
+  out.push(list[list.length-1]);
+  return out;
+}
+
 function buildSteps(){
-  steps = NSAlgo.run(algorithm, array).steps;
+  const raw = NSAlgo.run(algorithm, array).steps;
+  steps = capSteps(raw, 80);
   stepIndex = 0;
 }
 
