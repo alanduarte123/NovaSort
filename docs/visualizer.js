@@ -1,277 +1,133 @@
-// Código fuente para mostrar en las pestañas
 const CODE_SOURCES = {
-    python: {
-        novasuper: `def nova_super_v1(a: np.ndarray) -> None:
-    if a.dtype.kind not in "iu":
-        _fallback(a); return
-    n = a.shape[0]
-    if n < 32:
-        _insertion_small(a); return
-    if n > 1:
-        limit = min(4096, n-1)
-        sorted_f = True
-        for i in range(limit):
-            if a[i+1] < a[i]:
-                sorted_f=False; break
-        if sorted_f and np.all(a[1:]>=a[:-1]): return
-        rev_f = True
-        for i in range(limit):
-            if a[i+1] > a[i]:
-                rev_f=False; break
-        if rev_f and np.all(a[1:]<=a[:-1]):
-            a[:] = a[::-1]; return
-    mn = int(a.min()); mx = int(a.max())
-    r = mx-mn+1
-    if r <= max(65536, n):
-        cnts = np.bincount(a-mn, minlength=r)
-        a[:] = np.repeat(np.arange(mn,mx+1,dtype=a.dtype), cnts)
-        return
-    v = a - mn if mn else a.copy()
-    chunk = 512
-    d0 = v & 0xFFFF
-    if int(d0.min()) != int(d0.max()):
-        order = np.argsort(d0, kind='stable')
-        out = np.empty_like(v)
-        for s in range(0,n,chunk):
-            e = min(s+chunk,n); out[s:e]=v[order[s:e]]
-        v = out
-    d1 = v >> 16
-    if int(d1.min()) != int(d1.max()):
-        order = np.argsort(d1, kind='stable')
-        out = np.empty_like(v)
-        for s in range(0,n,chunk):
-            e = min(s+chunk,n); out[s:e]=v[order[s:e]]
-        v = out
-    if mn: v += mn
-    a[:] = v`,
-        novasort: `# NovaSort v3 - implementación de referencia\n# Ver repositorio: algorithms/nova.py`,
-        radix: `# Radix LSD\n# Ver algorithms.py`,
-        quick: `def quick_sort(a):
+  python: {
+    quick: `def quick_sort(a):
     def _q(l,r):
         if l>=r: return
-        p=a[l]; i=l+1;j=r
+        p=a[l]; i=l+1; j=r
         while True:
-            while i<=j and a[i]<p: i+=1
+            while i<=j and a[i]<=p: i+=1
             while i<=j and a[j]>p: j-=1
             if i>j: break
-            a[i],a[j]=a[j],a[i]; i+=1;j-=1
+            a[i],a[j]=a[j],a[i]
+            i+=1; j-=1
         a[l],a[j]=a[j],a[l]
         _q(l,j-1); _q(j+1,r)
     _q(0,len(a)-1)`,
-    },
-    javascript: {
-        novasuper: `function novaSuper(a){
-  let n=a.length; if(n<=1)return a.slice();
-  if(n<32){ for(let i=1;i<n;i++){let v=a[i],j=i-1;while(j>=0&&a[j]>v){a[j+1]=a[j];j--;}a[j+1]=v;} return a.slice(); }
-  let arr=a.slice();
-  let minv=arr[0],maxv=arr[0];
-  for(let i=1;i<n;i++){ if(arr[i]<minv)minv=arr[i]; if(arr[i]>maxv)maxv=arr[i]; }
-  let r=maxv-minv+1, limit=Math.max(65536,n);
-  if(r>=1&&r<=limit){
-    let cnt=new Array(r).fill(0);
-    for(let i=0;i<n;i++) cnt[arr[i]-minv]++;
-    let k=0,out=new Array(n);
-    for(let i=0;i<r;i++){ let v=minv+i,c=cnt[i]; for(let j=0;j<c;j++) out[k++]=v; }
-    return out;
-  }
-  let voff=arr.map(x=>x-minv);
-  let msk=0xFFFF;
-  let d0=voff.map(x=>x&msk);
-  let idx0=argsortStable(d0);
-  let v1=idx0.map(i=>voff[i]);
-  let d1=v1.map(x=>(x>>16)&msk);
-  let idx1=argsortStable(d1);
-  return idx1.map(i=>v1[i]+minv);
-}
-function argsortStable(b){ let idx=Array.from({length:b.length},(_,i)=>i); idx.sort((i,j)=>{if(b[i]<b[j])return-1;if(b[i]>b[j])return 1;return i-j;}); return idx; }`,
-        novasort: `// NovaSort v3\n// Ver ports/javascript/`,
-        radix: `// Radix LSD`,
-        quick: `function quickSort(arr,l,r){
+    radix: `# Radix LSD`,
+    novasort: `# NovaSort v3`,
+    novasuper: `# NovaSuper v1`
+  },
+  javascript: {
+    quick: `function quickSort(arr,l,r){
   if(l>=r)return; let p=arr[l],i=l+1,j=r;
   while(true){
-    while(i<=j&&arr[i]<=p)i++; while(i<=j&&arr[j]>p)j--;
-    if(i>j)break; [arr[i],arr[j]]=[arr[j],arr[i]]; i++; j--;
+    while(i<=j&&arr[i]<=p)i++;
+    while(i<=j&&arr[j]>p)j--;
+    if(i>j)break;
+    [arr[i],arr[j]]=[arr[j],arr[i]]; i++; j--;
   }
   [arr[l],arr[j]]=[arr[j],arr[l]];
   quickSort(arr,l,j-1); quickSort(arr,j+1,r);
 }`,
-    },
-    c: { novasuper: `// Ver ports/c/nova_super.c`, novasort: `// NovaSort v3`, radix: `// Radix LSD`, quick: `// Quick Sort` },
-    java: { novasuper: `// Ver ports/java/NovaSuper.java`, novasort: `// NovaSort v3`, radix: `// Radix LSD`, quick: `// Quick Sort` },
-    php: { novasuper: `// Ver ports/php/nova_super.php`, novasort: `// NovaSort v3`, radix: `// Radix LSD`, quick: `// Quick Sort` }
+    radix: `// Radix`, novasort: `// NovaSort`, novasuper: `// NovaSuper`
+  },
+  c:{quick:`// quick`,radix:`//`,novasort:`//`,novasuper:`//`},
+  java:{quick:`//`,radix:`//`,novasort:`//`,novasuper:`//`},
+  php:{quick:`//`,radix:`//`,novasort:`//`,novasuper:`//`}
+};
+const PSEUDOCODE={
+  quick:`1. Pivote arr[l]\n2. Particionar i,j\n3. Intercambiar cuando a[i]>p y a[j]<p\n4. Colocar pivote en j\n5. Recursivo`,
+  radix:`1. LSD bytes`,novasort:`1. Híbrido`,novasuper:`1. Counting o Radix 16-bit`
 };
 
-const PSEUDOCODE = {
-    novasuper: `1. Si n < 32: inserción\n2. Ordenado/invertido? early exit\n3. Rango ≤ max(65536,n)? counting\n4. Sino: radix 16-bit low→high (argsort estable)`,
-    novasort: `1. Early check\n2. Inserción pequeña\n3. Camino híbrido optimizado`,
-    radix: `1. LSD por bytes (base 256)\n2. Counting por cada dígito`,
-    quick: `1. Pivote (Lomuto)\n2. Particionar\n3. Recursión izquierda/derecha`
-};
-
-let array = [];
-let algorithm = 'novasuper';
-let speed = 15;
-let isPlaying = false;
-let intervalId = null;
-let comparisons = 0;
-let swaps = 0;
-let steps = [];
-let stepIndex = 0;
-
-function cloneArr(a){ return a.slice(); }
-
+let array=[],algorithm='quick',speed=15,isPlaying=false,intervalId=null,comparisons=0,swaps=0,steps=[],stepIndex=0,orig=[];
+function clone(a){return a.slice();}
 function generateArray(size){
-    array = [];
-    for(let i=0;i<size;i++) array.push(Math.floor(Math.random()*100)+1);
-    comparisons=0; swaps=0; stepIndex=0; steps=[];
-    updateStats(); renderBars(); setStatus('Listo');
-    buildQuickSteps();
+  array=[]; orig=[];
+  for(let i=0;i<size;i++){ let v=Math.floor(Math.random()*100)+1; array.push(v); orig.push(v);}
+  comparisons=0; swaps=0; stepIndex=0; steps=[];
+  updateStats(); renderBars(array); buildSteps(); setStatus('Listo');
 }
-
-function buildQuickSteps(){
-    if(algorithm !== 'quick') return;
-    let a = cloneArr(array);
-    steps=[];
+function buildSteps(){
+  steps=[]; let a=clone(array);
+  if(algorithm==='quick'){
     function qs(l,r){
-        if(l>=r) return;
-        let p=a[l], i=l+1, j=r;
-        steps.push({type:'pivot', indices:[l], array:cloneArr(a)});
-        while(true){
-            while(i<=j && a[i]<=p){ i++; comparisons++; steps.push({type:'compare', indices:[i-1,l], array:cloneArr(a)}); }
-            while(i<=j && a[j]>p){ j--; comparisons++; steps.push({type:'compare', indices:[i,j], array:cloneArr(a)}); }
-            if(i>j) break;
-            // swap
-            let tmp=a[i]; a[i]=a[j]; a[j]=tmp; swaps++;
-            steps.push({type:'swap', indices:[i,j], array:cloneArr(a)});
-            i++; j--;
-        }
-        tmp=a[l]; a[l]=a[j]; a[j]=tmp; swaps++;
-        steps.push({type:'swap', indices:[l,j], array:cloneArr(a), pivotDone:true});
-        qs(l,j-1); qs(j+1,r);
+      if(l>=r)return;
+      let p=a[l], i=l+1, j=r;
+      steps.push({type:'pivot', array:clone(a), idx:[l]});
+      while(true){
+        while(i<=j && a[i]<=p){ comparisons++; steps.push({type:'compare', array:clone(a), idx:[i,l]}); i++; }
+        while(i<=j && a[j]>p){ comparisons++; steps.push({type:'compare', array:clone(a), idx:[j,l]}); j--; }
+        if(i>j) break;
+        let t=a[i]; a[i]=a[j]; a[j]=t; swaps++;
+        steps.push({type:'swap', array:clone(a), idx:[i,j]});
+        i++; j++;
+      }
+      let t2=a[l]; a[l]=a[j]; a[j]=t2; swaps++;
+      steps.push({type:'swap', array:clone(a), idx:[l,j], placed:true});
+      qs(l,j-1); qs(j+1,r);
     }
     qs(0,a.length-1);
-    steps.push({type:'done', array:cloneArr(a)});
+  }
+  steps.push({type:'done', array:clone(a)});
 }
-
-function renderBars(arrToShow){
-    const barsContainer = document.getElementById('bars');
-    barsContainer.innerHTML='';
-    let data = arrToShow || array;
-    if(data.length===0) return;
-    const maxVal = Math.max(...data);
-    data.forEach((val,idx)=>{
-        const bar=document.createElement('div');
-        bar.className='bar';
-        bar.style.height=(val/maxVal*100)+'%';
-        barsContainer.appendChild(bar);
-    });
+function renderBars(data){
+  const c=document.getElementById('bars'); c.innerHTML='';
+  let d=data||array; if(d.length===0)return; let m=Math.max(...d);
+  d.forEach(v=>{
+    let b=document.createElement('div'); b.className='bar'; b.style.height=(v/m*100)+'%'; c.appendChild(b);
+  });
 }
-
-function applyStepState(state){
-    const bars=document.querySelectorAll('.bar');
-    bars.forEach(b=>b.classList.remove('comparing','swapping','pivot','sorted'));
-    renderBars(state.array);
-    array = state.array;
-    updateStats();
-    if(state.type==='pivot') document.querySelectorAll('.bar')[state.indices[0]].classList.add('pivot');
-    if(state.type==='compare') state.indices.forEach(i=>{ if(document.querySelectorAll('.bar')[i]) document.querySelectorAll('.bar')[i].classList.add('comparing'); });
-    if(state.type==='swap') state.indices.forEach(i=>{ if(document.querySelectorAll('.bar')[i]) document.querySelectorAll('.bar')[i].classList.add('swapping'); });
-    if(state.type==='done') document.querySelectorAll('.bar').forEach(b=>b.classList.add('sorted'));
+function applyState(s){
+  array = s.array; renderBars(array);
+  let bars=document.querySelectorAll('.bar');
+  bars.forEach(x=>x.classList.remove('comparing','swapping','pivot','sorted'));
+  if(s.type==='pivot'&&s.idx) bars[s.idx[0]]?.classList.add('pivot');
+  if(s.type==='compare'&&s.idx) s.idx.forEach(i=>{if(bars[i]) bars[i].classList.add('comparing');});
+  if(s.type==='swap'&&s.idx) s.idx.forEach(i=>{if(bars[i]) bars[i].classList.add('swapping');});
+  if(s.type==='done') bars.forEach(x=>x.classList.add('sorted'));
+  comparisons = s.comparisons!=null?s.comparisons:comparisons;
+  swaps = s.swaps!=null?s.swaps:swaps;
+  updateStats();
 }
-
-function updateStats(){
-    document.getElementById('comparisons').textContent=comparisons;
-    document.getElementById('swaps').textContent=swaps;
-}
-
-function setStatus(msg){ document.getElementById('status').textContent=msg; }
-
+function updateStats(){document.getElementById('comparisons').textContent=comparisons; document.getElementById('swaps').textContent=swaps;}
+function setStatus(m){document.getElementById('status').textContent=m;}
 function updateCode(){
-    const lang=document.querySelector('.tab-button.active').dataset.tab;
-    const algo=document.getElementById('algorithm').value;
-    document.getElementById('code-python').textContent=CODE_SOURCES.python[algo]||'';
-    document.getElementById('code-javascript').textContent=CODE_SOURCES.javascript[algo]||'';
-    document.getElementById('code-c').textContent=CODE_SOURCES.c[algo]||'';
-    document.getElementById('code-java').textContent=CODE_SOURCES.java[algo]||'';
-    document.getElementById('code-php').textContent=CODE_SOURCES.php[algo]||'';
-    document.getElementById('pseudocode').textContent=PSEUDOCODE[algo]||'';
+  let lang=document.querySelector('.tab-button.active')?.dataset.tab||'python';
+  let algo=document.getElementById('algorithm').value;
+  ['python','javascript','c','java','php'].forEach(l=>{
+    let el=document.getElementById('code-'+l); if(el) el.textContent=(CODE_SOURCES[l]&&CODE_SOURCES[l][algo])||'';
+  });
+  let p=document.getElementById('pseudocode'); if(p) p.textContent=PSEUDOCODE[algo]||'';
 }
-
+function nextStep(){
+  if(stepIndex < steps.length){
+    let s=steps[stepIndex++]; applyState(s);
+    return true;
+  }
+  return false;
+}
 function togglePlay(){
-    if(isPlaying) return;
-    if(algorithm==='quick' && steps.length===0) buildQuickSteps();
-    isPlaying=true;
-    document.getElementById('play').disabled=true;
-    document.getElementById('pause').disabled=false;
-    document.getElementById('step').disabled=true;
-    setStatus('Ejecutando...');
-    if(algorithm==='quick'){
-        intervalId=setInterval(()=>{
-            if(stepIndex < steps.length){
-                applyStepState(steps[stepIndex++]);
-            }else{
-                pause();
-                setStatus('Finalizado');
-            }
-        }, 1000/speed);
-    }else{
-        intervalId=setInterval(()=>{
-            // para otros algoritmos: demo visual
-            const bars=document.querySelectorAll('.bar');
-            bars.forEach((b,i)=>b.classList.toggle('comparing', i%3===0));
-        }, 800);
-    }
+  if(isPlaying) return;
+  if(steps.length===0) buildSteps();
+  isPlaying=true; document.getElementById('play').disabled=true; document.getElementById('pause').disabled=false; document.getElementById('step').disabled=true;
+  intervalId=setInterval(()=>{
+    if(!nextStep()){ clearInterval(intervalId); isPlaying=false; document.getElementById('play').disabled=false; document.getElementById('pause').disabled=true; document.getElementById('step').disabled=false; setStatus('Finalizado'); }
+  }, 1000/speed);
 }
+function pause(){ isPlaying=false; clearInterval(intervalId); document.getElementById('play').disabled=false; document.getElementById('pause').disabled=true; document.getElementById('step').disabled=false; setStatus('Pausado'); }
+function step(){ if(!isPlaying){ if(steps.length===0) buildSteps(); nextStep(); } }
+function reset(){ pause(); generateArray(parseInt(document.getElementById('arraySize').value)); }
 
-function pause(){
-    isPlaying=false;
-    document.getElementById('play').disabled=false;
-    document.getElementById('pause').disabled=true;
-    document.getElementById('step').disabled=false;
-    clearInterval(intervalId);
-    setStatus('Pausado');
-    document.querySelectorAll('.bar').forEach(b=>b.classList.remove('comparing','swapping'));
-}
+document.getElementById('generate').onclick=()=>generateArray(parseInt(document.getElementById('arraySize').value));
+document.getElementById('play').onclick=togglePlay;
+document.getElementById('pause').onclick=pause;
+document.getElementById('step').onclick=step;
+document.getElementById('reset').onclick=reset;
+document.getElementById('arraySize').oninput=e=>{document.getElementById('sizeValue').textContent=e.target.value; if(!isPlaying) generateArray(parseInt(e.target.value));};
+document.getElementById('speed').oninput=e=>{document.getElementById('speedValue').textContent=e.target.value; speed=parseInt(e.target.value); if(isPlaying){clearInterval(intervalId); intervalId=setInterval(()=>{if(!nextStep()){pause();setStatus('Finalizado');}},1000/speed);} };
+document.getElementById('algorithm').onchange=()=>{algorithm=document.getElementById('algorithm').value; stepIndex=0; steps=[]; buildSteps(); renderBars(array); updateCode();};
 
-function step(){
-    if(algorithm==='quick'){
-        if(steps.length===0) buildQuickSteps();
-        if(stepIndex < steps.length){
-            applyStepState(steps[stepIndex++]);
-            comparisons = stepIndex>0 ? (steps[stepIndex-1].type==='compare'?comparisons+1:comparisons) : comparisons;
-            swaps = stepIndex>0 ? (steps[stepIndex-1].type==='swap'?swaps+1:swaps) : swaps;
-            updateStats();
-        }
-    }else{
-        comparisons++; updateStats();
-    }
-}
+document.querySelectorAll('.tab-button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active');updateCode();});
 
-function reset(){
-    pause();
-    const size=parseInt(document.getElementById('arraySize').value);
-    generateArray(size);
-    renderBars();
-}
-
-document.getElementById('generate').addEventListener('click', ()=>{ const size=parseInt(document.getElementById('arraySize').value); generateArray(size); });
-document.getElementById('play').addEventListener('click', togglePlay);
-document.getElementById('pause').addEventListener('click', pause);
-document.getElementById('step').addEventListener('click', step);
-document.getElementById('reset').addEventListener('click', reset);
-document.getElementById('arraySize').addEventListener('input', e=>{ document.getElementById('sizeValue').textContent=e.target.value; if(!isPlaying) generateArray(parseInt(e.target.value)); });
-document.getElementById('speed').addEventListener('input', e=>{ document.getElementById('speedValue').textContent=e.target.value; speed=parseInt(e.target.value); });
-document.getElementById('algorithm').addEventListener('change', ()=>{ algorithm=document.getElementById('algorithm').value; stepIndex=0; steps=[]; if(algorithm==='quick') buildQuickSteps(); updateCode(); renderBars(); });
-
-document.querySelectorAll('.tab-button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-        updateCode();
-    });
-});
-
-generateArray(50);
-updateCode();
+generateArray(50); updateCode();
